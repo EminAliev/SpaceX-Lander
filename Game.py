@@ -52,10 +52,10 @@ while run:
                 pass
             # if event.key == pygame.K_DOWN:
             #     pass
-    screen.blit(rocket.image, rocket.rect)
     rocket.move(screen)
     screen.fill(BLACK)
-    all_sprites.draw(screen)
+    screen.blit(rocket.image, (rocket.x, rocket.y))
+    # all_sprites.draw(screen)
     pygame.display.update()
 
 pygame.quit()
