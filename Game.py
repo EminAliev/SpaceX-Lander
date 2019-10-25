@@ -1,4 +1,6 @@
 import pygame
+
+from Menu import Menu
 from Rocket import Rocket
 
 WIDTH, HEIGHT = 1280, 720
@@ -21,6 +23,11 @@ all_sprites = pygame.sprite.Group()
 rocket = Rocket(WIDTH / 2, HEIGHT / 2, GREEN, SPEED)
 all_sprites.add(rocket)
 
+items = [(120, 140, u"Game", (250, 250, 30), (250, 30, 250), 0),
+         (120, 140, u"Quit", (250, 250, 30), (250, 30, 250), 1)]
+game = Menu(items)
+game.menu()
+
 while run:
 
     CLOCK.tick(GAME_FPS)
@@ -40,6 +47,10 @@ while run:
                 rocket.x_speed_plus(1)
             if event.key == pygame.K_UP:
                 rocket.y_speed_plus(-3)
+            if event.key == pygame.K_ESCAPE:
+                game.menu()
+                pygame.key.set_repeat(1, 1)
+                pygame.mouse.set_visible(False)
 
         if event.type == pygame.KEYUP:
             # if event.key == pygame.K_DOWN:
