@@ -1,4 +1,6 @@
 import pygame
+
+from Menu import Menu
 from Rocket import Rocket
 from Config import *
 
@@ -38,6 +40,11 @@ def draw():
     pygame.display.update()
 
 
+items = [(120, 140, u"Game", (250, 250, 30), (250, 30, 250), 0),
+         (120, 140, u"Quit", (250, 250, 30), (250, 30, 250), 1)]
+game = Menu(items)
+game.menu()
+
 while run:
 
     CLOCK.tick(GAME_FPS)
@@ -59,6 +66,10 @@ while run:
                 rocket.angle_speed = +ANGLE
             if event.key == pygame.K_UP:
                 rocket.gas = True
+            if event.key == pygame.K_ESCAPE:
+                game.menu()
+                pygame.key.set_repeat(1, 1)
+                pygame.mouse.set_visible(False)
 
         if event.type == pygame.KEYUP:
             # if event.key == pygame.K_DOWN:
