@@ -1,5 +1,4 @@
 import pygame
-
 from Menu import Menu
 from Rocket import Rocket
 from Config import *
@@ -40,9 +39,9 @@ def draw():
     pygame.display.update()
 
 
-items = [(120, 140, u"Game", (250, 250, 30), (250, 30, 250), 0),
-         (120, 140, u"Quit", (250, 250, 30), (250, 30, 250), 1)]
-game = Menu(items)
+items = [(WIDTH/2 - 200, HEIGHT/2, u"Game", (250, 250, 30), (250, 30, 250), 0),
+         (WIDTH/2 + 100, HEIGHT/2, u"Quit", (250, 250, 30), (250, 30, 250), 1)]
+game = Menu(screen, items)
 game.menu()
 
 while run:
