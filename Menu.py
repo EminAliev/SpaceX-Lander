@@ -2,11 +2,11 @@ import sys
 
 import pygame
 
-from Game import screen, SIZE
+from Game import screen
 
 
 class Menu:
-    def __init__(self, items=[120, 140, u"Item", (250, 250, 30), (250, 30, 250)]):
+    def __init__(self, items=[400, 350, u'Item', (250, 250, 30), (250, 30, 250)]):
         self.items = items
 
     def render(self, font_type, font, num_item):
@@ -18,7 +18,7 @@ class Menu:
 
     def menu(self):
         run = True
-        font_menu = pygame.font.Font("/fonts/...", 50)
+        font_menu = pygame.font.Font("/fonts/BOD_I.TTF", 50)
         pygame.key.set_repeat(0, 0)
         pygame.mouse.set_visible(True)
         item = 0
@@ -48,4 +48,5 @@ class Menu:
                     elif item == 1:
                         sys.exit()
 
-            SIZE.blit(screen, 0, 0)  # ?????
+            screen.blit(screen, 0, 0)  
+            pygame.display.flip()
