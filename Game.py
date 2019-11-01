@@ -1,7 +1,10 @@
 import pygame
+
+from Interface import Interface
 from Menu import Menu
 from Rocket import Rocket
 from Config import *
+
 
 WIDTH, HEIGHT = 1280, 720
 
@@ -76,5 +79,8 @@ while run:
                 rocket.angle_speed = 0
 
     draw()
+
+    score = Interface(SIZE)
+    score.render()
 
 pygame.quit()
