@@ -23,8 +23,9 @@ rocket = Rocket(SPEED, GRAVITY_VECTOR, (WIDTH / 2, HEIGHT / 2))
 # rocket = Rocket(SPEED, GRAVITY_VECTOR, (0, 0))
 all_sprites.add(rocket)
 platform = pygame.Surface((60, 6))
-pygame.draw.rect(platform, WHITE, (0, 0), 1)
+# pygame.draw.rect(platform, WHITE, (0, 0), 1)
 playersprite = pygame.sprite.RenderPlain(rocket)
+score = Interface(SIZE, screen)
 
 
 def draw():
@@ -99,7 +100,6 @@ while run:
     run = game_over(rocket)
     draw()
 
-    score = Interface(SIZE)
     score.render()
 
 pygame.quit()

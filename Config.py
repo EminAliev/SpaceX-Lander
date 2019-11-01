@@ -6,6 +6,7 @@ WHITE = (255, 255, 255)
 RED = (209, 50, 50)
 SPACE = (0, 20, 0)
 BLACK = (0, 0, 0)
+BLUE = (50, 50, 250)
 ANGLE = 2  # Step of rocket rotating
 SPEED = 0.01  # Rocket's booster speed
 GRAVITY_VECTOR = (0, 0.005)  # Strength of gravity
