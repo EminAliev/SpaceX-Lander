@@ -1,8 +1,12 @@
-WINDOW_TITLE = "SPACE-X LENDER"
+WINDOW_TITLE = "SpaceX Lander"
 GAME_FPS = 60
 GREEN = (120, 240, 120)
+YELLOW = (255, 250, 111)
 WHITE = (255, 255, 255)
+RED = (209, 50, 50)
+SPACE = (0, 20, 0)
 BLACK = (0, 0, 0)
 ANGLE = 2  # Step of rocket rotating
 SPEED = 0.01  # Rocket's booster speed
 GRAVITY_VECTOR = (0, 0.005)  # Strength of gravity
+FONT = "fonts/BOD_I.TTF"

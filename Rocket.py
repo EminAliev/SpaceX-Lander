@@ -19,7 +19,8 @@ class Rocket(pygame.sprite.Sprite):
         self.angle = 0  # Default angle
         self.angle_speed = 0
         self.gas = False
-        self.gravity_val = gravity_val  # Value of planet's gravity
+        self.gravity_val = gravity_val
+        self.crashed = False# Value of planet's gravity
 
     """ Method that plays role of gravity """
     def gravity(self):
@@ -39,7 +40,10 @@ class Rocket(pygame.sprite.Sprite):
         self.gravity()
         self.position += self.move_direction * 1
         self.rect.center = self.position
+        # print(self.position[0])
 
     """ Simulation of engine working """
     def shift(self):
         self.move_direction += self.shift_direction * self.speed
+
+

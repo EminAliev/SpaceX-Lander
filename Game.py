@@ -1,4 +1,5 @@
 import pygame
+import time
 from Menu import Menu
 from Rocket import Rocket
 from Config import *
@@ -14,12 +15,12 @@ CLOCK = pygame.time.Clock()
 screen = pygame.display.set_mode(SIZE)
 run = True
 
-
 all_sprites = pygame.sprite.Group()
 rocket = Rocket(SPEED, GRAVITY_VECTOR, (WIDTH / 2, HEIGHT / 2))
+# rocket = Rocket(SPEED, GRAVITY_VECTOR, (0, 0))
 all_sprites.add(rocket)
-platform = pygame.Surface((30, 1))
-pygame.draw.line(platform, WHITE, (0, 0), (30, 0), 1)
+platform = pygame.Surface((60, 6))
+pygame.draw.rect(platform, WHITE, (0, 0), 1)
 playersprite = pygame.sprite.RenderPlain(rocket)
 
 
@@ -35,10 +36,27 @@ def draw():
     pygame.display.update()
 
 
-items = [(WIDTH/2 - 200, HEIGHT/2, u"Game", (250, 250, 30), (250, 30, 250), 0),
-         (WIDTH/2 + 100, HEIGHT/2, u"Quit", (250, 250, 30), (250, 30, 250), 1)]
+items = [(WIDTH / 2 - 200, HEIGHT / 2, u"Game", GREEN, YELLOW, 0),
+         (WIDTH / 2 + 100, HEIGHT / 2, u"Quit", GREEN, YELLOW, 1)]
 game = Menu(screen, items)
 game.menu()
+
+
+def game_over(rocket):
+    if (rocket.position[0] - rocket.rect.width / 2) < 0 \
+            or (rocket.position[0] + rocket.rect.width / 2) > WIDTH \
+            or (rocket.position[1] - rocket.rect.height / 2) < 0 \
+            or (rocket.position[1] + rocket.rect.height / 2) > HEIGHT:
+        screen.fill(BLACK)
+        font = pygame.font.SysFont(FONT, 40)
+        screen.blit(font.render("You lose", False, RED), (WIDTH/2, HEIGHT/2))
+        pygame.display.update()
+        time.sleep(3)
+        game.menu()
+        return False
+    else:
+        return True
+
 
 while run:
 
@@ -75,6 +93,7 @@ while run:
             if event.key == pygame.K_LEFT:
                 rocket.angle_speed = 0
 
+    run = game_over(rocket)
     draw()
 
 pygame.quit()

@@ -1,6 +1,7 @@
 import sys
 
 import pygame
+from Config import SPACE, FONT
 
 
 class Menu:
@@ -17,12 +18,12 @@ class Menu:
 
     def menu(self):
         run = True
-        font_menu = pygame.font.Font("fonts/BOD_I.TTF", 50)
+        font_menu = pygame.font.Font(FONT, 50)
         pygame.key.set_repeat(0, 0)
         pygame.mouse.set_visible(True)
         item = 0
         while run:
-            self.screen.fill((0, 100, 200))
+            self.screen.fill(SPACE)
 
             mp = pygame.mouse.get_pos()
             for i in self.items:
