@@ -6,7 +6,6 @@ from Menu import Menu
 from Rocket import Rocket
 from Config import *
 
-
 WIDTH, HEIGHT = 1280, 720
 
 SIZE = (WIDTH, HEIGHT)
@@ -26,6 +25,9 @@ platform = pygame.Surface((60, 6))
 # pygame.draw.rect(platform, WHITE, (0, 0), 1)
 playersprite = pygame.sprite.RenderPlain(rocket)
 score = Interface(SIZE, screen)
+score = 0
+fuel = 100
+level = 1
 
 
 def draw():
@@ -53,7 +55,7 @@ def game_over(rocket):
             or (rocket.position[1] + rocket.rect.height / 2) > HEIGHT:
         screen.fill(BLACK)
         font = pygame.font.SysFont(FONT, 40)
-        screen.blit(font.render("You lose", False, RED), (WIDTH/2, HEIGHT/2))
+        screen.blit(font.render("You lose", False, RED), (WIDTH / 2, HEIGHT / 2))
         pygame.display.update()
         time.sleep(3)
         game.menu()
@@ -65,6 +67,8 @@ def game_over(rocket):
 while run:
 
     CLOCK.tick(GAME_FPS)
+
+    time1 = time.time()
 
     for event in pygame.event.get():
         if (event.type == pygame.QUIT) or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -80,6 +84,7 @@ while run:
 
             if event.key == pygame.K_UP:
                 rocket.gas = True
+                fuel -= 20  # менять в зависимость от уровня?!??!
 
             if event.key == pygame.K_ESCAPE:
                 game.menu()
@@ -100,6 +105,10 @@ while run:
     run = game_over(rocket)
     draw()
 
-    score.render()
-
+    interface = Interface(SIZE, screen)
+    Interface.render(interface, score, 0, 0, "SCORE: ")
+    Interface.render(interface, rocket.speed, 0, 200, "SPEED: ")
+    Interface.render(interface, fuel, 0, 300, "FUEL: ")
+    Interface.render(interface, level, 1050, 0, "LEVEL: ")
+    # осталось горизонтальная и вертикальная скорость, время
 pygame.quit()
