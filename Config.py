@@ -1,6 +1,7 @@
 WINDOW_TITLE = "SpaceX Lander"
 GAME_FPS = 60
-WIDTH, HEIGHT = 1280, 900
+FULLSCREEN = True
+WIDTH, HEIGHT = 1920, 1080
 SCREEN_SIZE = (WIDTH, HEIGHT)
 GREEN = (120, 240, 120)
 YELLOW = (255, 250, 111)
@@ -13,7 +14,7 @@ BLUE = (50, 50, 250)
 ROCKET_LAUNCHER_IMAGE = "images/launch-vehicle.png"
 ROCKET_LAUNCHER_SIZE = (HEIGHT / 32 * 3, HEIGHT / 4)
 PLATFORM_IMAGE = "images/platform.png"  # 550x150 / 11x3
-PLATFORM_SIZE = (HEIGHT/15/3*11, HEIGHT/15)
+PLATFORM_SIZE = (HEIGHT/12/3*11, HEIGHT/12)
 BACKGROUND_IMAGE_LEVEL_1 = "images/Ocean-View-sm.jpg"
 ANGLE = 1  # Step of rocket rotating
 SPEED = 0.01  # Rocket's booster speed

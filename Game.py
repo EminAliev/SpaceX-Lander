@@ -11,7 +11,12 @@ SCORE = 100
 pygame.init()
 pygame.display.set_caption(WINDOW_TITLE)
 CLOCK = pygame.time.Clock()
-screen = pygame.display.set_mode(SCREEN_SIZE)
+
+if FULLSCREEN:
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+else:
+    screen = pygame.display.set_mode(SCREEN_SIZE)
+
 run = True
 
 all_sprites = pygame.sprite.Group()
@@ -75,7 +80,6 @@ def game_win():
                  and rocket.position[0] + rocket.rect.width < platform.position[0] + platform.rect.width)
             and abs(rocket.move_direction[0]) < 0.1
             and abs(rocket.move_direction[1]) < 0.4):
-        screen.fill(BLACK)
         font = pygame.font.SysFont(FONT, 40)
         for i in range(180):
             CLOCK.tick(GAME_FPS)
