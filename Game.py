@@ -1,5 +1,4 @@
 import pygame
-import time
 
 from Interface import Interface
 from Menu import Menu
@@ -17,7 +16,7 @@ run = True
 
 all_sprites = pygame.sprite.Group()
 rocket = Rocket(SPEED, GRAVITY_VECTOR, (WIDTH / 2, HEIGHT / 8))  # creating of the rocket
-platform = Platform((WIDTH/2, HEIGHT-100))
+platform = Platform((WIDTH / 2, HEIGHT - 100))
 all_sprites.add(rocket)
 all_sprites.add(platform)
 
@@ -44,9 +43,8 @@ def draw():
     Interface.render(interface, SCORE, 0, 0, "SCORE: ")
     Interface.render(interface, abs(round(rocket.move_direction[0], 2)), 0, 50, "HORIZONTAL SPEED: ")
     Interface.render(interface, abs(round(rocket.move_direction[1], 2)), 0, 100, "VERTICAL SPEED: ")
-    Interface.render(interface, rocket.fuel, 0, 150, "FUEL: ")
+    Interface.render(interface, abs(round(rocket.fuel)), 0, 150, "FUEL: ")
     Interface.render(interface, level, WIDTH - 100, 0, "LEVEL: ")
-
 
     pygame.display.update()
 
@@ -73,6 +71,7 @@ def game_over():
     else:
         return True
 
+
 # def game_win():
 #     if rocket.position[0] + rocket.rect.height == platform.
 
@@ -80,8 +79,6 @@ def game_over():
 while run:
 
     CLOCK.tick(GAME_FPS)
-
-    time1 = time.time()
 
     for event in pygame.event.get():
         if (event.type == pygame.QUIT) or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
