@@ -18,9 +18,9 @@ screen = pygame.display.set_mode(SIZE)
 run = True
 
 all_sprites = pygame.sprite.Group()
-rocket = Rocket(SPEED, GRAVITY_VECTOR, (WIDTH / 2, HEIGHT / 8))
+rocket = Rocket(SPEED, GRAVITY_VECTOR, (WIDTH / 2, HEIGHT / 8)) # creating of the rocket
 all_sprites.add(rocket)
-platform = pygame.Surface((60, 6))
+platform = pygame.Surface((60, 6))  # creating of the platform
 # pygame.draw.rect(platform, WHITE, (0, 0), 1)
 playersprite = pygame.sprite.RenderClear(rocket)
 
@@ -45,7 +45,7 @@ def draw():
     screen.blit(platform, (WIDTH / 2 - 15, HEIGHT - 5))
 
     """ interface """
-    Interface.render(interface, score, 0, 0, "SCORE: ")
+    Interface.render(interface, SCORE, 0, 0, "SCORE: ")
     Interface.render(interface, abs(round(rocket.move_direction[0], 2)), 0, 50, "HORIZONTAL SPEED: ")
     Interface.render(interface, abs(round(rocket.move_direction[1], 2)), 0, 100, "VERTICAL SPEED: ")
     Interface.render(interface, rocket.fuel, 0, 150, "FUEL: ")

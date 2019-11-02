@@ -8,9 +8,9 @@ class Rocket(pygame.sprite.Sprite):
     def __init__(self, speed, gravity_val=(0, 0.01), pos=(0, 0)):
         super(Rocket, self).__init__()
         # size = (50, 20)  # Create "wrapper" for image
-        self.image = pygame.Surface(ROCKET_LAUNCH_SIZE).convert_alpha()  # Crete surface for the rocket
+        self.image = pygame.Surface(ROCKET_LAUNCH_SIZE, flags=pygame.SRCALPHA)  # Crete surface for the rocket
         print(self.image.get_alpha())
-        sprite = pygame.image.load(ROCKET_LAUNCH_IMAGE)  # load sprite
+        sprite = pygame.image.load(ROCKET_LAUNCH_IMAGE).convert_alpha()  # load sprite
         sprite = pygame.transform.scale(sprite, self.image.get_size())  # scale sprite
         self.image.blit(sprite, (0, 0))  # Fill surface with image
         self.original_image = self.image
