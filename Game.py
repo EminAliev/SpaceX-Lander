@@ -1,57 +1,50 @@
 import pygame
-import time
 
 from Interface import Interface
 from Menu import Menu
 from Rocket import Rocket
+from Platform import Platform
 from Config import *
 
-WIDTH, HEIGHT = 1280, 720
-
-SIZE = (WIDTH, HEIGHT)
 SCORE = 100
 
 pygame.init()
 pygame.display.set_caption(WINDOW_TITLE)
 CLOCK = pygame.time.Clock()
-screen = pygame.display.set_mode(SIZE)
+screen = pygame.display.set_mode(SCREEN_SIZE)
 run = True
 
 all_sprites = pygame.sprite.Group()
-rocket = Rocket(SPEED, GRAVITY_VECTOR, (WIDTH / 2, HEIGHT / 8)) # creating of the rocket
+rocket = Rocket(SPEED, GRAVITY_VECTOR, (WIDTH / 2, HEIGHT / 8))  # creating of the rocket
+platform = Platform((WIDTH / 2, HEIGHT - 100))
 all_sprites.add(rocket)
-platform = pygame.Surface((60, 6))  # creating of the platform
-# pygame.draw.rect(platform, WHITE, (0, 0), 1)
+all_sprites.add(platform)
+
 playersprite = pygame.sprite.RenderClear(rocket)
+platfomrsprite = pygame.sprite.RenderClear(platform)
 
-# background = pygame.image.load(BACKGROUND_IMAGE_LEVEL_1)
-# background = pygame.transform.scale(background, SIZE)
+background = pygame.image.load(BACKGROUND_IMAGE_LEVEL_1)
+background = pygame.transform.scale(background, SCREEN_SIZE)
 
-score = Interface(SIZE, screen)
-score = 0
 level = 1
-interface = Interface(SIZE, screen)
+interface = Interface(SCREEN_SIZE, screen)
 
 
 def draw():
     playersprite.update()
     rocket.update()
-    screen.fill(GREEN)
 
-    # screen.blit(background, (0, 0))
+    screen.blit(background, (0, 0))
 
     playersprite.draw(screen)
-    # screen.blit(rocket.image, rocket.rect)
-    screen.blit(platform, (WIDTH / 2 - 15, HEIGHT - 5))
+    platfomrsprite.draw(screen)
 
     """ interface """
     Interface.render(interface, SCORE, 0, 0, "SCORE: ")
     Interface.render(interface, abs(round(rocket.move_direction[0], 2)), 0, 50, "HORIZONTAL SPEED: ")
     Interface.render(interface, abs(round(rocket.move_direction[1], 2)), 0, 100, "VERTICAL SPEED: ")
-    Interface.render(interface, rocket.fuel, 0, 150, "FUEL: ")
+    Interface.render(interface, abs(round(rocket.fuel)), 0, 150, "FUEL: ")
     Interface.render(interface, level, WIDTH - 100, 0, "LEVEL: ")
-
-    all_sprites.draw(screen)
 
     pygame.display.update()
 
@@ -62,11 +55,11 @@ game = Menu(screen, items)
 game.menu()
 
 
-def game_over(rocket):
+def game_over():
     if (rocket.position[0] - rocket.rect.width / 2) < 0 \
             or (rocket.position[0] + rocket.rect.width / 2) > WIDTH \
             or (rocket.position[1] - rocket.rect.height / 2) < 0 \
-            or (rocket.position[1] + rocket.rect.height / 2) > HEIGHT:
+            or (rocket.position[1] + rocket.rect.height / 2) > (HEIGHT - 100):
         screen.fill(BLACK)
         font = pygame.font.SysFont(FONT, 40)
         for i in range(180):
@@ -79,11 +72,13 @@ def game_over(rocket):
         return True
 
 
+# def game_win():
+#     if rocket.position[0] + rocket.rect.height == platform.
+
+
 while run:
 
     CLOCK.tick(GAME_FPS)
-
-    time1 = time.time()
 
     for event in pygame.event.get():
         if (event.type == pygame.QUIT) or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -116,7 +111,7 @@ while run:
             if event.key == pygame.K_LEFT:
                 rocket.angle_speed = 0
 
-    run = game_over(rocket)
+    game_over()
     draw()
 
 pygame.quit()
