@@ -26,18 +26,23 @@ platform = pygame.Surface((60, 6))
 playersprite = pygame.sprite.RenderPlain(rocket)
 score = Interface(SIZE, screen)
 score = 0
-fuel = 100
 level = 1
+interface = Interface(SIZE, screen)
 
 
 def draw():
     playersprite.update()
-    # rocket.move(screen)
     rocket.update()
     screen.fill(BLACK)
     playersprite.draw(screen)
-    # screen.blit(rocket.image, (rocket.x, rocket.y))
     screen.blit(platform, (WIDTH / 2 - 15, HEIGHT - 5))
+
+    """ interface """
+    Interface.render(interface, score, 0, 0, "SCORE: ")
+    Interface.render(interface, rocket.speed, 0, 200, "SPEED: ")
+    Interface.render(interface, rocket.fuel, 0, 300, "FUEL: ")
+    Interface.render(interface, level, 1050, 0, "LEVEL: ")
+
     # all_sprites.draw(screen)
     pygame.display.update()
 
@@ -57,7 +62,7 @@ def game_over(rocket):
         font = pygame.font.SysFont(FONT, 40)
         screen.blit(font.render("You lose", False, RED), (WIDTH / 2, HEIGHT / 2))
         pygame.display.update()
-        time.sleep(3)
+        CLOCK.tick(0.1)
         game.menu()
         return False
     else:
@@ -84,7 +89,6 @@ while run:
 
             if event.key == pygame.K_UP:
                 rocket.gas = True
-                fuel -= 20  # менять в зависимость от уровня?!??!
 
             if event.key == pygame.K_ESCAPE:
                 game.menu()
@@ -105,10 +109,4 @@ while run:
     run = game_over(rocket)
     draw()
 
-    interface = Interface(SIZE, screen)
-    Interface.render(interface, score, 0, 0, "SCORE: ")
-    Interface.render(interface, rocket.speed, 0, 200, "SPEED: ")
-    Interface.render(interface, fuel, 0, 300, "FUEL: ")
-    Interface.render(interface, level, 1050, 0, "LEVEL: ")
-    # осталось горизонтальная и вертикальная скорость, время
 pygame.quit()

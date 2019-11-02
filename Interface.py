@@ -9,9 +9,9 @@ class Interface:
         self.screen = screen
 
     def render(self, param, x, y, text):
-        text_font = pygame.font.Font(None, 60)
+        text_font = pygame.font.Font(None, 30)
         text_image = text_font.render(text + str(param), True, WHITE)
 
         self.screen.blit(text_image, (x, y))
 
-        pygame.display.update()
+        # pygame.display.update()

@@ -36,13 +36,13 @@ class Menu:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         sys.exit()
-                    if event.key == pygame.K_UP:
+                    if event.key == pygame.K_LEFT:
                         if item > 0:
                             item -= 1
-                    if event.key == pygame.K_DOWN:
+                    if event.key == pygame.K_RIGHT:
                         if item < len(self.items) - 1:
                             item += 1
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if (event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.K_KP_ENTER) and event.button == 1:
                     if item == 0:
                         run = False
                     elif item == 1:
