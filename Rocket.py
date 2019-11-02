@@ -1,4 +1,5 @@
 import pygame
+from Config import ROCKET_LAUNCH_IMAGE, ROCKET_LAUNCH_SIZE
 from pygame.math import Vector2
 
 
@@ -6,14 +7,16 @@ class Rocket(pygame.sprite.Sprite):
 
     def __init__(self, speed, gravity_val=(0, 0.01), pos=(0, 0)):
         super(Rocket, self).__init__()
-        size = (24, 28)  # Create "wrapper" for image
-        self.image = pygame.Surface(size)  # Crete surface of the rocket
-        sprite = pygame.image.load("images/test-sprite-24x28.png").convert_alpha()  # load sprite
+        # size = (50, 20)  # Create "wrapper" for image
+        self.image = pygame.Surface(ROCKET_LAUNCH_SIZE).convert_alpha()  # Crete surface for the rocket
+        print(self.image.get_alpha())
+        sprite = pygame.image.load(ROCKET_LAUNCH_IMAGE)  # load sprite
+        sprite = pygame.transform.scale(sprite, self.image.get_size())  # scale sprite
         self.image.blit(sprite, (0, 0))  # Fill surface with image
         self.original_image = self.image
         self.rect = self.image.get_rect()
         self.position = Vector2(pos)
-        self.move_direction = Vector2(1, 0)  # Direction of spawn movement
+        self.move_direction = Vector2(0.1, 0)  # Direction of spawn movement
         self.shift_direction = Vector2(0, -1)  # Default engine thrust
         self.speed = speed  # Speed of engine
         self.angle = 0  # Default angle
@@ -39,14 +42,10 @@ class Rocket(pygame.sprite.Sprite):
             # Update the position vector and the rect.
         if self.gas:
             self.move_direction += self.shift_direction * self.speed
+            self.fuel -= 0.01
         self.gravity()
         self.position += self.move_direction * 1
         self.rect.center = self.position
-        # print(self.position[0])
 
-    """ Simulation of engine working """
-    def shift(self):
-        self.move_direction += self.shift_direction * self.speed
-        self.fuel -= 10
 
 

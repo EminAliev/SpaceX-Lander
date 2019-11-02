@@ -18,12 +18,15 @@ screen = pygame.display.set_mode(SIZE)
 run = True
 
 all_sprites = pygame.sprite.Group()
-rocket = Rocket(SPEED, GRAVITY_VECTOR, (WIDTH / 2, HEIGHT / 2))
-# rocket = Rocket(SPEED, GRAVITY_VECTOR, (0, 0))
+rocket = Rocket(SPEED, GRAVITY_VECTOR, (WIDTH / 2, HEIGHT / 8))
 all_sprites.add(rocket)
 platform = pygame.Surface((60, 6))
 # pygame.draw.rect(platform, WHITE, (0, 0), 1)
-playersprite = pygame.sprite.RenderPlain(rocket)
+playersprite = pygame.sprite.RenderClear(rocket)
+
+# background = pygame.image.load(BACKGROUND_IMAGE_LEVEL_1)
+# background = pygame.transform.scale(background, SIZE)
+
 score = Interface(SIZE, screen)
 score = 0
 level = 1
@@ -33,17 +36,23 @@ interface = Interface(SIZE, screen)
 def draw():
     playersprite.update()
     rocket.update()
-    screen.fill(BLACK)
+    screen.fill(GREEN)
+
+    # screen.blit(background, (0, 0))
+
     playersprite.draw(screen)
+    # screen.blit(rocket.image, rocket.rect)
     screen.blit(platform, (WIDTH / 2 - 15, HEIGHT - 5))
 
     """ interface """
     Interface.render(interface, score, 0, 0, "SCORE: ")
-    Interface.render(interface, rocket.speed, 0, 200, "SPEED: ")
-    Interface.render(interface, rocket.fuel, 0, 300, "FUEL: ")
-    Interface.render(interface, level, 1050, 0, "LEVEL: ")
+    Interface.render(interface, abs(round(rocket.move_direction[0], 2)), 0, 50, "HORIZONTAL SPEED: ")
+    Interface.render(interface, abs(round(rocket.move_direction[1], 2)), 0, 100, "VERTICAL SPEED: ")
+    Interface.render(interface, rocket.fuel, 0, 150, "FUEL: ")
+    Interface.render(interface, level, WIDTH - 100, 0, "LEVEL: ")
 
-    # all_sprites.draw(screen)
+    all_sprites.draw(screen)
+
     pygame.display.update()
 
 
@@ -60,9 +69,10 @@ def game_over(rocket):
             or (rocket.position[1] + rocket.rect.height / 2) > HEIGHT:
         screen.fill(BLACK)
         font = pygame.font.SysFont(FONT, 40)
-        screen.blit(font.render("You lose", False, RED), (WIDTH / 2, HEIGHT / 2))
-        pygame.display.update()
-        CLOCK.tick(0.1)
+        for i in range(180):
+            CLOCK.tick(GAME_FPS)
+            screen.blit(font.render("You lose", False, RED), (WIDTH / 2, HEIGHT / 2))
+            pygame.display.update()
         game.menu()
         return False
     else:

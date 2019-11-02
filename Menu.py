@@ -42,7 +42,7 @@ class Menu:
                     if event.key == pygame.K_RIGHT:
                         if item < len(self.items) - 1:
                             item += 1
-                if (event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.K_KP_ENTER) and event.button == 1:
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if item == 0:
                         run = False
                     elif item == 1:
