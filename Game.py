@@ -29,6 +29,11 @@ background = pygame.transform.scale(background, SCREEN_SIZE)
 level = 1
 interface = Interface(SCREEN_SIZE, screen)
 
+items = [(WIDTH / 2 - 200, HEIGHT / 2, u"Game", GREEN, YELLOW, 0),
+         (WIDTH / 2 + 100, HEIGHT / 2, u"Quit", GREEN, YELLOW, 1)]
+game = Menu(screen, items)
+game.menu()
+
 
 def draw():
     playersprite.update()
@@ -36,23 +41,18 @@ def draw():
 
     screen.blit(background, (0, 0))
 
-    playersprite.draw(screen)
     platfomrsprite.draw(screen)
+    pygame.draw.rect(screen, BLACK, (platform.rect[0], platform.rect[1] + platform.rect.height / 4, 3, 3))
+    playersprite.draw(screen)
 
     """ interface """
     Interface.render(interface, SCORE, 0, 0, "SCORE: ")
     Interface.render(interface, abs(round(rocket.move_direction[0], 2)), 0, 50, "HORIZONTAL SPEED: ")
     Interface.render(interface, abs(round(rocket.move_direction[1], 2)), 0, 100, "VERTICAL SPEED: ")
-    Interface.render(interface, abs(round(rocket.fuel)), 0, 150, "FUEL: ")
+    Interface.render(interface, round(rocket.fuel), 0, 150, "FUEL: ")
     Interface.render(interface, level, WIDTH - 100, 0, "LEVEL: ")
 
     pygame.display.update()
-
-
-items = [(WIDTH / 2 - 200, HEIGHT / 2, u"Game", GREEN, YELLOW, 0),
-         (WIDTH / 2 + 100, HEIGHT / 2, u"Quit", GREEN, YELLOW, 1)]
-game = Menu(screen, items)
-game.menu()
 
 
 def game_over():
@@ -67,13 +67,21 @@ def game_over():
             screen.blit(font.render("You lose", False, RED), (WIDTH / 2, HEIGHT / 2))
             pygame.display.update()
         game.menu()
-        return False
-    else:
-        return True
 
 
-# def game_win():
-#     if rocket.position[0] + rocket.rect.height == platform.
+def game_win():
+    if (((rocket.rect[1] + rocket.rect.height) > (platform.rect[1] + platform.rect.height / 4))
+            and (rocket.position[0] > platform.position[0]
+                 and rocket.position[0] + rocket.rect.width < platform.position[0] + platform.rect.width)
+            and abs(rocket.move_direction[0]) < 0.1
+            and abs(rocket.move_direction[1]) < 0.4):
+        screen.fill(BLACK)
+        font = pygame.font.SysFont(FONT, 40)
+        for i in range(180):
+            CLOCK.tick(GAME_FPS)
+            screen.blit(font.render("You won", False, RED), (WIDTH / 2, HEIGHT / 2))
+            pygame.display.update()
+        game.menu()
 
 
 while run:
@@ -93,7 +101,8 @@ while run:
                 rocket.angle_speed = +ANGLE
 
             if event.key == pygame.K_UP:
-                rocket.gas = True
+                if rocket.fuel > 0:
+                    rocket.gas = True
 
             if event.key == pygame.K_ESCAPE:
                 game.menu()
@@ -112,6 +121,7 @@ while run:
                 rocket.angle_speed = 0
 
     game_over()
+    game_win()
     draw()
 
 pygame.quit()
