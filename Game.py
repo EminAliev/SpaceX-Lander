@@ -1,4 +1,5 @@
 import pygame
+import random
 
 from Interface import Interface
 from Menu import Menu
@@ -21,7 +22,7 @@ run = True
 
 all_sprites = pygame.sprite.Group()
 rocket = Rocket(SPEED, GRAVITY_VECTOR, (WIDTH / 2, HEIGHT / 8))  # creating of the rocket
-platform = Platform((WIDTH / 2, HEIGHT - 100))
+platform = Platform((WIDTH * 0.75, HEIGHT - 100))
 all_sprites.add(rocket)
 all_sprites.add(platform)
 
@@ -31,13 +32,18 @@ platfomrsprite = pygame.sprite.RenderClear(platform)
 background = pygame.image.load(BACKGROUND_IMAGE_LEVEL_1)
 background = pygame.transform.scale(background, SCREEN_SIZE)
 
+sadElon = pygame.image.load(SAD_ELON).convert_alpha()
+sadElon = pygame.transform.scale(sadElon, ELON_SIZE)
+
 level = 1
 interface = Interface(SCREEN_SIZE, screen)
 
-items = [(WIDTH / 2 - 200, HEIGHT / 2, u"Game", GREEN, YELLOW, 0),
-         (WIDTH / 2 + 100, HEIGHT / 2, u"Quit", GREEN, YELLOW, 1)]
+items = [(WIDTH / 2 - 200, HEIGHT * 0.75, u"Game", GRAY, WHITE, 0),
+         (WIDTH / 2 + 100, HEIGHT * 0.75, u"Quit", GRAY, WHITE, 1)]
 game = Menu(screen, items)
 game.menu()
+
+move_left = True
 
 
 def draw():
@@ -66,6 +72,7 @@ def game_over():
             or (rocket.position[1] - rocket.rect.height / 2) < 0 \
             or (rocket.position[1] + rocket.rect.height / 2) > (HEIGHT - 100):
         screen.fill(BLACK)
+        screen.blit(sadElon, (0, HEIGHT - ELON_SIZE[1]))
         font = pygame.font.SysFont(FONT, 40)
         for i in range(180):
             CLOCK.tick(GAME_FPS)
@@ -83,10 +90,23 @@ def game_win():
         font = pygame.font.SysFont(FONT, 40)
         for i in range(180):
             CLOCK.tick(GAME_FPS)
-            screen.blit(font.render("You won", False, RED), (WIDTH / 2, HEIGHT / 2))
+            screen.blit(font.render("You won", False, GREEN), (WIDTH / 2, HEIGHT / 2))
             pygame.display.update()
         game.menu()
 
+
+""" test platform moving behavior """
+"""
+ def move_platform():
+    if move_left and platform.position[0] < WIDTH / 10:
+        platform.rect = platform.position[0] - 0.01, platform.position[1]
+    elif not move_left and platform.position[0] + platform.rect.width < WIDTH * 0.9:
+        platform.rect = platform.position[0] + 0.01, platform.position[1]
+    if random.randint(0, 1) == 0:
+        return True
+    else:
+        return False
+"""
 
 while run:
 
@@ -124,6 +144,7 @@ while run:
             if event.key == pygame.K_LEFT:
                 rocket.angle_speed = 0
 
+    # move_left = move_platform()
     game_over()
     game_win()
     draw()
