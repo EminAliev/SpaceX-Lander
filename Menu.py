@@ -5,7 +5,7 @@ from Config import FONT, MENU_BACKGROUND_IMAGE, SCREEN_SIZE
 
 
 class Menu:
-    def __init__(self, screen, items=[400, 350, u'Item', (250, 250, 30), (250, 30, 250)]):
+    def __init__(self, screen, items):
         self.items = items
         self.screen = screen
         self.image = pygame.image.load(MENU_BACKGROUND_IMAGE)
@@ -18,12 +18,13 @@ class Menu:
             else:
                 surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
 
-    def menu(self):
+    def show_menu_window(self):
         run = True
         font_menu = pygame.font.Font(FONT, 50)
         pygame.key.set_repeat(0, 0)
         pygame.mouse.set_visible(True)
         item = 0
+
         while run:
             self.screen.blit(self.image, (0, 0))
 

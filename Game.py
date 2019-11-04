@@ -12,38 +12,43 @@ class Game:
     def __init__(self):
         pygame.init()
         self.running = True
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        if FULLSCREEN:
+            self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        else:
+            self.screen = pygame.display.set_mode(SCREEN_SIZE)
         self.items = [(WIDTH / 2 - 200, HEIGHT * 0.75, u"Game", GRAY, WHITE, 0),
-                      (WIDTH / 2 + 100, HEIGHT * 0.75, u"Quit", GRAY, WHITE, 1)]
-        self.game = Menu(self.screen, self.items)
+                      (WIDTH / 2 + 100, HEIGHT * 0.75, u"Quit", GRAY, WHITE, 1),
+                      (WIDTH / 2 - 300, HEIGHT * 0.75, u"Restart", GRAY, WHITE, 0)]
+        self.menu = Menu(self.screen, [self.items[0], self.items[1]])
+        self.restart_menu = Menu(self.screen, [self.items[2], self.items[1]])
         self.level = 1
         self.score = 0
         self.fps_clock = pygame.time.Clock()
         self.all_sprites = pygame.sprite.Group()
         self.rocket = Rocket(SPEED, GRAVITY_VECTOR, (WIDTH / 2, HEIGHT / 8))  # creating of the rocket
         self.platform = Platform((WIDTH * 0.75, HEIGHT - 100))
+
         self.all_sprites.add(self.rocket)
         self.all_sprites.add(self.platform)
+
         self.playersprite = pygame.sprite.RenderClear(self.rocket)
         self.platfomrsprite = pygame.sprite.RenderClear(self.platform)
+
         self.background = pygame.image.load(BACKGROUND_IMAGE_LEVEL_1)
         self.background = pygame.transform.scale(self.background, SCREEN_SIZE)
+
         self.sadElon = pygame.image.load(SAD_ELON).convert_alpha()
         self.sadElon = pygame.transform.scale(self.sadElon, ELON_SIZE)
+
         self.interface = Interface(SCREEN_SIZE, self.screen)
 
     def start(self):
-        if FULLSCREEN:
-            self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-        else:
-            self.screen = pygame.display.set_mode(SCREEN_SIZE)
 
-        self.game.menu()
-        self.game_over()
-        self.game_win()
-        self.draw()
+        self.menu.show_menu_window()
+        self.launch_game()
 
-    def gameloop(self):
+    def launch_game(self):
+
         while self.running:
             for event in pygame.event.get():
                 if (event.type == pygame.QUIT) or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -57,7 +62,7 @@ class Game:
                         if self.rocket.fuel > 0:
                             self.rocket.gas = True
                     if event.key == pygame.K_ESCAPE:
-                        self.game.menu()
+                        self.menu.show_menu_window()
                         pygame.key.set_repeat(1, 1)
                         pygame.mouse.set_visible(False)
                 if event.type == pygame.KEYUP:
@@ -68,7 +73,17 @@ class Game:
                     if event.key == pygame.K_LEFT:
                         self.rocket.angle_speed = 0
 
+            self.game_over()
+            self.game_win()
+            self.draw()
+
+    def quit_action(self):
+        for event in pygame.event.get():
+            if (event.type == pygame.QUIT) or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                pygame.quit()
+
     def draw(self):
+
         self.playersprite.update()
         self.rocket.update()
 
@@ -98,7 +113,12 @@ class Game:
                 self.fps_clock.tick(GAME_FPS)
                 self.screen.blit(font.render("You lose", False, RED), (WIDTH / 2, HEIGHT / 2))
                 pygame.display.update()
-            self.game.menu()
+            self.restart_menu.show_menu_window()
+            self.restart()
+
+    def restart(self):
+        self.__init__()
+        self.start()
 
     def game_win(self):
         if (((self.rocket.rect[1] + self.rocket.rect.height) > (self.platform.rect[1] + self.platform.rect.height / 4))
@@ -113,7 +133,7 @@ class Game:
                 self.fps_clock.tick(GAME_FPS)
                 self.screen.blit(font.render("You won", False, GREEN), (WIDTH / 2, HEIGHT / 2))
                 pygame.display.update()
-            self.game.menu()
+            self.menu.show_menu_window()
 
     """ test platform moving behavior """
     """
@@ -130,4 +150,5 @@ class Game:
 
 
 if __name__ == '__main__':
-    Game().start()
+    game = Game()
+    game.start()

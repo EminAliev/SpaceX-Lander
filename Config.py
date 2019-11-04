@@ -1,11 +1,9 @@
 """ window configuration """
 WINDOW_TITLE = "SpaceX Lander"
 GAME_FPS = 60
-WIDTH, HEIGHT = 1280, 720
-SCREEN_SIZE = (WIDTH, HEIGHT)
 
-FULLSCREEN = True
-WIDTH, HEIGHT = 1920, 1080  # set your screen size even if fullscreen
+FULLSCREEN = False
+WIDTH, HEIGHT = 1280, 720  # set your screen size even if fullscreen
 SCREEN_SIZE = (WIDTH, HEIGHT)
 
 """ colors """
