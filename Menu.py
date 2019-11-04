@@ -1,13 +1,15 @@
 import sys
 
 import pygame
-from Config import SPACE, FONT
+from Config import FONT, MENU_BACKGROUND_IMAGE, SCREEN_SIZE
 
 
 class Menu:
     def __init__(self, screen, items=[400, 350, u'Item', (250, 250, 30), (250, 30, 250)]):
         self.items = items
         self.screen = screen
+        self.image = pygame.image.load(MENU_BACKGROUND_IMAGE)
+        self.image = pygame.transform.scale(self.image, SCREEN_SIZE)
 
     def render(self, surface, font, num_item):
         for i in self.items:
@@ -23,7 +25,7 @@ class Menu:
         pygame.mouse.set_visible(True)
         item = 0
         while run:
-            self.screen.fill(SPACE)
+            self.screen.blit(self.image, (0, 0))
 
             mp = pygame.mouse.get_pos()
             for i in self.items:

@@ -26,10 +26,12 @@ class Rocket(pygame.sprite.Sprite):
         self.crashed = False
 
     """ Method that plays role of gravity """
+
     def gravity(self):
         self.move_direction += Vector2(self.gravity_val)
 
     """ Updating rocket's attributes """
+
     def update(self):
         if self.angle_speed != 0:
             """ Rotate the direction vector and then the image. """
@@ -45,6 +47,3 @@ class Rocket(pygame.sprite.Sprite):
         self.gravity()
         self.position += self.move_direction * 1
         self.rect.center = self.position
-
-
-
