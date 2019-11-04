@@ -1,8 +1,8 @@
 import pygame
 
-import Interface
 from Config import ANGLE, SPEED, GRAVITY_VECTOR, BACKGROUND_IMAGE_LEVEL_1, BLACK, FONT, GAME_FPS, RED, WIDTH, HEIGHT, \
     SCREEN_SIZE, GREEN, SCORE, SAD_ELON, ELON_SIZE, GRAY, WHITE, FULLSCREEN
+from Interface import Interface
 from Menu import Menu
 from Platform import Platform
 from Rocket import Rocket
@@ -12,7 +12,7 @@ class Game:
     def __init__(self):
         pygame.init()
         self.running = True
-        self.screen = pygame.display.set_mode((HEIGHT, WIDTH))
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.items = [(WIDTH / 2 - 200, HEIGHT * 0.75, u"Game", GRAY, WHITE, 0),
                       (WIDTH / 2 + 100, HEIGHT * 0.75, u"Quit", GRAY, WHITE, 1)]
         self.game = Menu(self.screen, self.items)
@@ -30,6 +30,7 @@ class Game:
         self.background = pygame.transform.scale(self.background, SCREEN_SIZE)
         self.sadElon = pygame.image.load(SAD_ELON).convert_alpha()
         self.sadElon = pygame.transform.scale(self.sadElon, ELON_SIZE)
+        self.interface = Interface(SCREEN_SIZE, self.screen)
 
     def start(self):
         if FULLSCREEN:
@@ -38,7 +39,9 @@ class Game:
             self.screen = pygame.display.set_mode(SCREEN_SIZE)
 
         self.game.menu()
-        self.gameloop()
+        self.game_over()
+        self.game_win()
+        self.draw()
 
     def gameloop(self):
         while self.running:
@@ -75,15 +78,13 @@ class Game:
         pygame.draw.rect(self.screen, BLACK,
                          (self.platform.rect[0], self.platform.rect[1] + self.platform.rect.height / 4, 3, 3))
         self.playersprite.draw(self.screen)
-        pygame.display.update()
 
-    def render_text_info(self):
-        interface = Interface(SCREEN_SIZE, self.screen)
-        Interface.render(interface, SCORE, 0, 0, "SCORE: ")
-        Interface.render(interface, abs(round(self.rocket.move_direction[0], 2)), 0, 50, "HORIZONTAL SPEED: ")
-        Interface.render(interface, abs(round(self.rocket.move_direction[1], 2)), 0, 100, "VERTICAL SPEED: ")
-        Interface.render(interface, round(self.rocket.fuel), 0, 150, "FUEL: ")
-        Interface.render(interface, self.level, WIDTH - 100, 0, "LEVEL: ")
+        Interface.render(self.interface, SCORE, 0, 0, "SCORE: ")
+        Interface.render(self.interface, abs(round(self.rocket.move_direction[0], 2)), 0, 50, "HORIZONTAL SPEED: ")
+        Interface.render(self.interface, abs(round(self.rocket.move_direction[1], 2)), 0, 100, "VERTICAL SPEED: ")
+        Interface.render(self.interface, round(self.rocket.fuel), 0, 150, "FUEL: ")
+        Interface.render(self.interface, self.level, WIDTH - 100, 0, "LEVEL: ")
+
         pygame.display.update()
 
     def game_over(self):
