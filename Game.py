@@ -2,7 +2,7 @@ import pygame
 
 import Interface
 from Config import ANGLE, SPEED, GRAVITY_VECTOR, BACKGROUND_IMAGE_LEVEL_1, BLACK, FONT, GAME_FPS, RED, WIDTH, HEIGHT, \
-    SCREEN_SIZE, GREEN, YELLOW, SCORE, SAD_ELON, ELON_SIZE, GRAY, WHITE
+    SCREEN_SIZE, GREEN, SCORE, SAD_ELON, ELON_SIZE, GRAY, WHITE, FULLSCREEN
 from Menu import Menu
 from Platform import Platform
 from Rocket import Rocket
@@ -11,10 +11,12 @@ from Rocket import Rocket
 class Game:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((self.HEIGHT, self.WIDTH))
+        self.running = True
+        self.screen = pygame.display.set_mode((HEIGHT, WIDTH))
+        self.items = [(WIDTH / 2 - 200, HEIGHT * 0.75, u"Game", GRAY, WHITE, 0),
+                      (WIDTH / 2 + 100, HEIGHT * 0.75, u"Quit", GRAY, WHITE, 1)]
         self.game = Menu(self.screen, self.items)
         self.level = 1
-        self.running = True
         self.score = 0
         self.fps_clock = pygame.time.Clock()
         self.all_sprites = pygame.sprite.Group()
@@ -30,9 +32,12 @@ class Game:
         self.sadElon = pygame.transform.scale(self.sadElon, ELON_SIZE)
 
     def start(self):
-        items = [(WIDTH / 2 - 200, HEIGHT * 0.75, u"Game", GRAY, WHITE, 0),
-                 (WIDTH / 2 + 100, HEIGHT * 0.75, u"Quit", GRAY, WHITE, 1)]
-        self.game.menu(self.screen, items)
+        if FULLSCREEN:
+            self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        else:
+            self.screen = pygame.display.set_mode(SCREEN_SIZE)
+
+        self.game.menu()
 
     def gameloop(self):
         while self.running:

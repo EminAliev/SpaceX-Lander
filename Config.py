@@ -5,7 +5,7 @@ WIDTH, HEIGHT = 1280, 720
 SCREEN_SIZE = (WIDTH, HEIGHT)
 
 FULLSCREEN = True
-WIDTH, HEIGHT = 1920, 1080  # set your screen size even if fullscreen
+WIDTH, HEIGHT = 1080, 1920  # set your screen size even if fullscreen
 SCREEN_SIZE = (WIDTH, HEIGHT)
 
 """ colors """
