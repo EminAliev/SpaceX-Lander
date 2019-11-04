@@ -1,8 +1,8 @@
 import pygame
 
 import Interface
-from Config import ANGLE, SPEED, GRAVITY_VECTOR, BACKGROUND_IMAGE_LEVEL_1, BLACK, FONT, GAME_FPS, RED
-from Game import SCORE, rocket, WIDTH, SCREEN_SIZE, HEIGHT, GREEN, YELLOW
+from Config import ANGLE, SPEED, GRAVITY_VECTOR, BACKGROUND_IMAGE_LEVEL_1, BLACK, FONT, GAME_FPS, RED, WIDTH, HEIGHT, \
+    SCREEN_SIZE, GREEN, YELLOW, SCORE, SAD_ELON, ELON_SIZE, GRAY, WHITE
 from Menu import Menu
 from Platform import Platform
 from Rocket import Rocket
@@ -19,17 +19,19 @@ class Game:
         self.fps_clock = pygame.time.Clock()
         self.all_sprites = pygame.sprite.Group()
         self.rocket = Rocket(SPEED, GRAVITY_VECTOR, (WIDTH / 2, HEIGHT / 8))  # creating of the rocket
-        self.platform = Platform((WIDTH / 2, HEIGHT - 100))
-        self.all_sprites.add(rocket)
+        self.platform = Platform((WIDTH * 0.75, HEIGHT - 100))
+        self.all_sprites.add(self.rocket)
         self.all_sprites.add(self.platform)
-        self.playersprite = pygame.sprite.RenderClear(rocket)
+        self.playersprite = pygame.sprite.RenderClear(self.rocket)
         self.platfomrsprite = pygame.sprite.RenderClear(self.platform)
         self.background = pygame.image.load(BACKGROUND_IMAGE_LEVEL_1)
         self.background = pygame.transform.scale(self.background, SCREEN_SIZE)
+        self.sadElon = pygame.image.load(SAD_ELON).convert_alpha()
+        self.sadElon = pygame.transform.scale(self.sadElon, ELON_SIZE)
 
     def start(self):
-        items = [(WIDTH / 2 - 200, HEIGHT / 2, u"Game", GREEN, YELLOW, 0),
-                 (WIDTH / 2 + 100, HEIGHT / 2, u"Quit", GREEN, YELLOW, 1)]
+        items = [(WIDTH / 2 - 200, HEIGHT * 0.75, u"Game", GRAY, WHITE, 0),
+                 (WIDTH / 2 + 100, HEIGHT * 0.75, u"Quit", GRAY, WHITE, 1)]
         self.game.menu(self.screen, items)
 
     def gameloop(self):
@@ -43,7 +45,7 @@ class Game:
                     if event.key == pygame.K_RIGHT:
                         self.rocket.angle_speed = +ANGLE
                     if event.key == pygame.K_UP:
-                        if rocket.fuel > 0:
+                        if self.rocket.fuel > 0:
                             self.rocket.gas = True
                     if event.key == pygame.K_ESCAPE:
                         self.game.menu()
@@ -59,7 +61,7 @@ class Game:
 
     def draw(self):
         self.playersprite.update()
-        rocket.update()
+        self.rocket.update()
 
         self.screen.blit(self.background, (0, 0))
 
@@ -72,17 +74,17 @@ class Game:
     def render_text_info(self):
         interface = Interface(SCREEN_SIZE, self.screen)
         Interface.render(interface, SCORE, 0, 0, "SCORE: ")
-        Interface.render(interface, abs(round(rocket.move_direction[0], 2)), 0, 50, "HORIZONTAL SPEED: ")
-        Interface.render(interface, abs(round(rocket.move_direction[1], 2)), 0, 100, "VERTICAL SPEED: ")
-        Interface.render(interface, round(rocket.fuel), 0, 150, "FUEL: ")
+        Interface.render(interface, abs(round(self.rocket.move_direction[0], 2)), 0, 50, "HORIZONTAL SPEED: ")
+        Interface.render(interface, abs(round(self.rocket.move_direction[1], 2)), 0, 100, "VERTICAL SPEED: ")
+        Interface.render(interface, round(self.rocket.fuel), 0, 150, "FUEL: ")
         Interface.render(interface, self.level, WIDTH - 100, 0, "LEVEL: ")
         pygame.display.update()
 
     def game_over(self):
-        if (rocket.position[0] - rocket.rect.width / 2) < 0 \
-                or (rocket.position[0] + rocket.rect.width / 2) > WIDTH \
-                or (rocket.position[1] - rocket.rect.height / 2) < 0 \
-                or (rocket.position[1] + rocket.rect.height / 2) > (HEIGHT - 100):
+        if (self.rocket.position[0] - self.rocket.rect.width / 2) < 0 \
+                or (self.rocket.position[0] + self.rocket.rect.width / 2) > WIDTH \
+                or (self.rocket.position[1] - self.rocket.rect.height / 2) < 0 \
+                or (self.rocket.position[1] + self.rocket.rect.height / 2) > (HEIGHT - 100):
             self.screen.fill(BLACK)
             font = pygame.font.SysFont(FONT, 40)
             for i in range(180):
@@ -92,16 +94,17 @@ class Game:
             self.game.menu()
 
     def game_win(self):
-        if (((rocket.rect[1] + rocket.rect.height) > (self.platform.rect[1] + self.platform.rect.height / 4))
-                and (rocket.position[0] > self.platform.position[0]
-                     and rocket.position[0] + rocket.rect.width < self.platform.position[0] + self.platform.rect.width)
-                and abs(rocket.move_direction[0]) < 0.1
-                and abs(rocket.move_direction[1]) < 0.4):
+        if (((self.rocket.rect[1] + self.rocket.rect.height) > (self.platform.rect[1] + self.platform.rect.height / 4))
+                and (self.rocket.position[0] > self.platform.position[0]
+                     and self.rocket.position[0] + self.rocket.rect.width < self.platform.position[
+                         0] + self.platform.rect.width)
+                and abs(self.rocket.move_direction[0]) < 0.1
+                and abs(self.rocket.move_direction[1]) < 0.4):
             self.screen.fill(BLACK)
             font = pygame.font.SysFont(FONT, 40)
             for i in range(180):
                 self.fps_clock.tick(GAME_FPS)
-                self.screen.blit(font.render("You won", False, RED), (WIDTH / 2, HEIGHT / 2))
+                self.screen.blit(font.render("You won", False, GREEN), (WIDTH / 2, HEIGHT / 2))
                 pygame.display.update()
             self.game.menu()
 

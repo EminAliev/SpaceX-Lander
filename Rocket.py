@@ -9,10 +9,6 @@ class Rocket(pygame.sprite.Sprite):
         super(Rocket, self).__init__()
         # size = (50, 20)  # Create "wrapper" for image
         self.image = pygame.Surface(ROCKET_LAUNCHER_SIZE, flags=pygame.SRCALPHA)  # Crete surface for the rocket
-<<<<<<< HEAD
-        print(self.image.get_alpha())
-=======
->>>>>>> 57763962c216d281139f4edd55c293d3e853df42
         sprite = pygame.image.load(ROCKET_LAUNCHER_IMAGE).convert_alpha()  # load sprite
         sprite = pygame.transform.scale(sprite, self.image.get_size())  # scale sprite
         self.image.blit(sprite, (0, 0))  # Fill surface with image
@@ -30,10 +26,12 @@ class Rocket(pygame.sprite.Sprite):
         self.crashed = False
 
     """ Method that plays role of gravity """
+
     def gravity(self):
         self.move_direction += Vector2(self.gravity_val)
 
     """ Updating rocket's attributes """
+
     def update(self):
         if self.angle_speed != 0:
             """ Rotate the direction vector and then the image. """
@@ -49,6 +47,3 @@ class Rocket(pygame.sprite.Sprite):
         self.gravity()
         self.position += self.move_direction * 1
         self.rect.center = self.position
-
-
-
