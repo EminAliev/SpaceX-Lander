@@ -38,6 +38,7 @@ class Game:
             self.screen = pygame.display.set_mode(SCREEN_SIZE)
 
         self.game.menu()
+        self.gameloop()
 
     def gameloop(self):
         while self.running:
@@ -73,7 +74,7 @@ class Game:
         self.platfomrsprite.draw(self.screen)
         pygame.draw.rect(self.screen, BLACK,
                          (self.platform.rect[0], self.platform.rect[1] + self.platform.rect.height / 4, 3, 3))
-        self.playersprite.draw(self.creen)
+        self.playersprite.draw(self.screen)
         pygame.display.update()
 
     def render_text_info(self):
@@ -112,6 +113,19 @@ class Game:
                 self.screen.blit(font.render("You won", False, GREEN), (WIDTH / 2, HEIGHT / 2))
                 pygame.display.update()
             self.game.menu()
+
+    """ test platform moving behavior """
+    """
+     def move_platform():
+        if move_left and platform.position[0] < WIDTH / 10:
+            platform.rect = platform.position[0] - 0.01, platform.position[1]
+        elif not move_left and platform.position[0] + platform.rect.width < WIDTH * 0.9:
+            platform.rect = platform.position[0] + 0.01, platform.position[1]
+        if random.randint(0, 1) == 0:
+            return True
+        else:
+            return False
+    """
 
 
 if __name__ == '__main__':
