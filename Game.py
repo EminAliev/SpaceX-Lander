@@ -45,6 +45,7 @@ class Game:
 
     def gameloop(self):
         while self.running:
+            self.fps_clock(GAME_FPS)
             for event in pygame.event.get():
                 if (event.type == pygame.QUIT) or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     self.running = False
