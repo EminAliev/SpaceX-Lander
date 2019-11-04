@@ -39,12 +39,13 @@ class Game:
             self.screen = pygame.display.set_mode(SCREEN_SIZE)
 
         self.game.menu()
-        self.gameloop()
+        self.game_over()
+        self.game_win()
         self.draw()
 
     def gameloop(self):
         while self.running:
-            self.fps_clock.tick(GAME_FPS)
+            self.fps_clock(GAME_FPS)
             for event in pygame.event.get():
                 if (event.type == pygame.QUIT) or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     self.running = False
@@ -67,9 +68,6 @@ class Game:
                         self.rocket.angle_speed = 0
                     if event.key == pygame.K_LEFT:
                         self.rocket.angle_speed = 0
-            self.game_over()
-            self.game_win()
-            self.draw()
 
     def draw(self):
         self.playersprite.update()
