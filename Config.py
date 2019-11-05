@@ -3,7 +3,7 @@ WINDOW_TITLE = "SpaceX Lander"
 GAME_FPS = 60
 
 FULLSCREEN = False
-WIDTH, HEIGHT = 1600, 900 # set your screen size even if fullscreen
+WIDTH, HEIGHT = 1280, 720  # set your screen size even if fullscreen
 SCREEN_SIZE = (WIDTH, HEIGHT)
 
 """ colors """
@@ -53,3 +53,6 @@ FONT = "fonts/spaceranger.ttf"
 
 """ files """
 FILE_SCORE = "score.txt"
+
+
+MARGIN = HEIGHT / 24

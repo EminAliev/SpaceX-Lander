@@ -13,11 +13,11 @@ class Form(Menu):
         color = pygame.Color('lightskyblue3')
         active = True
         text = ''
-        run = False
+        run = True
         font_menu = pygame.font.Font(FONT, 50)
         item = 0
 
-        while not run:
+        while run:
             self.screen.blit(self.image, (0, 0))
 
             mp = pygame.mouse.get_pos()

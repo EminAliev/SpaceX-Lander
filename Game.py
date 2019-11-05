@@ -145,11 +145,11 @@ class Game:
         else:
             self.player_sprite.draw(self.screen)
 
-        Interface.render(self.interface, round(self.score), 0, 0, "SCORE: ")
-        Interface.render(self.interface, abs(round(self.rocket.move_direction[0], 2)), 0, 50, "HORIZONTAL SPEED: ")
-        Interface.render(self.interface, abs(round(self.rocket.move_direction[1], 2)), 0, 100, "VERTICAL SPEED: ")
-        Interface.render(self.interface, round(self.rocket.fuel, 2), 0, 150, "FUEL: ")
-        Interface.render(self.interface, self.level, WIDTH - 100, 0, "LEVEL: ")
+        Interface.render(self.interface, round(self.score), MARGIN, MARGIN, "SCORE: ")
+        Interface.render(self.interface, abs(round(self.rocket.move_direction[0], 2)), MARGIN, MARGIN * 2, "HORIZONTAL SPEED: ")
+        Interface.render(self.interface, abs(round(self.rocket.move_direction[1], 2)), MARGIN, MARGIN * 3, "VERTICAL SPEED: ")
+        Interface.render(self.interface, round(self.rocket.fuel, 2), MARGIN, MARGIN * 4, "FUEL: ")
+        Interface.render(self.interface, self.level, WIDTH * 0.9, MARGIN, "LEVEL: ")
 
         pygame.display.update()
 
@@ -171,7 +171,7 @@ class Game:
             font = pygame.font.SysFont(FONT, 40)
             for i in range(180):
                 self.fps_clock.tick(GAME_FPS)
-                self.screen.blit(font.render("You lose", False, RED), (WIDTH / 2, HEIGHT / 2))
+                self.screen.blit(font.render("You lose", False, RED), (WIDTH * 0.45, HEIGHT / 2))
                 pygame.display.update()
             self.save_score()
             self.record.show_menu_window()
@@ -191,7 +191,7 @@ class Game:
             font = pygame.font.SysFont(FONT, 40)
             for i in range(180):
                 self.fps_clock.tick(GAME_FPS)
-                self.screen.blit(font.render("You won", False, GREEN), (WIDTH / 2, HEIGHT / 2))
+                self.screen.blit(font.render("You won", False, GREEN), (WIDTH * 0.45, HEIGHT / 2))
                 pygame.display.update()
             self.pause_menu.show_menu_window()
             self.recreate_game_pole()
