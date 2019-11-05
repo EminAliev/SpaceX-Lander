@@ -81,6 +81,7 @@ class Game:
             self.game_over()
             self.game_win()
             self.draw()
+            self.save_score()
 
     def quit_action(self):
         for event in pygame.event.get():
@@ -121,6 +122,7 @@ class Game:
                 pygame.display.update()
             self.restart_menu.show_menu_window()
             self.restart()
+            self.save_score()
 
     def restart(self):
         self.__init__()
@@ -130,11 +132,11 @@ class Game:
 
     def game_win(self):
         if (((self.rocket.rect[1] + self.rocket.rect.height) > (self.platform.rect[1] + self.platform.rect.height / 4))
-                and (self.rocket.position[0] > self.platform.position[0]
-                     and self.rocket.position[0] + self.rocket.rect.width < self.platform.position[
-                         0] + self.platform.rect.width)
-                and abs(self.rocket.move_direction[0]) < 0.1
-                and abs(self.rocket.move_direction[1]) < 0.4)\
+            and (self.rocket.position[0] > self.platform.position[0]
+                 and self.rocket.position[0] + self.rocket.rect.width < self.platform.position[
+                     0] + self.platform.rect.width)
+            and abs(self.rocket.move_direction[0]) < 0.1
+            and abs(self.rocket.move_direction[1]) < 0.4) \
                 and abs(self.rocket.angle) < 10:
             self.screen.blit(self.happyElon, (0, HEIGHT - ELON_SIZE[1]))
             font = pygame.font.SysFont(FONT, 40)
@@ -147,6 +149,7 @@ class Game:
             self.score += self.level * self.rocket.fuel
             self.reinit()
             self.launch_game()
+            self.save_score()
 
     def reinit(self):
         pygame.init()
@@ -184,6 +187,13 @@ class Game:
 
         self.interface = Interface(SCREEN_SIZE, self.screen)
 
+    def save_score(self):
+        file = open('score.txt', 'w')
+
+        file.write(str(self.score))
+
+        file.close()
+
     """ test platform moving behavior """
     """
      def move_platform():
@@ -196,4 +206,3 @@ class Game:
         else:
             return False
     """
-
