@@ -4,16 +4,15 @@ import random
 from Config import *
 from Interface import Interface
 from Menu import Menu
+from Form import Form
 from Platform import Platform
 from Rocket import Rocket
-
 
 """ Decorator, that creates of main window of the game, sets menu items, initializes different types of menu, 
 sprites and backgrounds, initializes interface """
 
 
 def init_window():
-
     def my_decorator(function):
 
         def wrapper(self):
@@ -30,13 +29,15 @@ def init_window():
             self.items = [(WIDTH / 2 - 200, HEIGHT * 0.75, u"Game", GRAY, WHITE, 0),
                           (WIDTH / 2 + 100, HEIGHT * 0.75, u"Quit", GRAY, WHITE, 1),
                           (WIDTH / 2 - 300, HEIGHT * 0.75, u"Restart", GRAY, WHITE, 0),
-                          (WIDTH / 2 - 300, HEIGHT * 0.75, u"Continue", GRAY, WHITE, 0)]
+                          (WIDTH / 2 - 300, HEIGHT * 0.75, u"Continue", GRAY, WHITE, 0),
+                          (WIDTH / 2 - 300, HEIGHT * 0.75, u"sada", GRAY, WHITE, 0)]
 
             self.fps_clock = pygame.time.Clock()
 
             self.menu = Menu(self.screen, [self.items[0], self.items[1]])
             self.restart_menu = Menu(self.screen, [self.items[2], self.items[1]])
             self.pause_menu = Menu(self.screen, [self.items[3], self.items[1]])
+            self.record = Form(self.screen, [self.items[2], self.items[1]])
 
             self.all_sprites = pygame.sprite.Group()
             self.rocket = Rocket(SPEED, GRAVITY_VECTOR, (WIDTH / 2, HEIGHT / 8))  # creating of the rocket
@@ -48,7 +49,7 @@ def init_window():
             self.player_sprite = pygame.sprite.RenderClear(self.rocket)
             self.platform_sprite = pygame.sprite.RenderClear(self.platform)
 
-            self.background = pygame.image.load(BACKGROUND[random.randint(0, len(BACKGROUND)-1)])
+            self.background = pygame.image.load(BACKGROUND[random.randint(0, len(BACKGROUND) - 1)])
             self.background = pygame.transform.scale(self.background, SCREEN_SIZE)
 
             self.sadElon = pygame.image.load(SAD_ELON).convert_alpha()
@@ -63,7 +64,9 @@ def init_window():
             self.interface = Interface(SCREEN_SIZE, self.screen)
 
             return func
+
         return wrapper
+
     return my_decorator
 
 
@@ -79,15 +82,20 @@ class Game:
         self.score = 0
 
     """ Opens start menu and then launch main loop """
+
     def start(self):
 
         self.menu.show_menu_window()
         self.launch_game()
 
     """ Launches game loop """
+
     def launch_game(self):
 
         while self.running:
+
+            self.fps_clock.tick(GAME_FPS)
+
             for event in pygame.event.get():
                 if (event.type == pygame.QUIT) or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                     self.running = False
@@ -120,6 +128,7 @@ class Game:
                 pygame.quit()
 
     """ Draws full frame: background, rocket, platform and interface"""
+
     def draw(self):
 
         self.player_sprite.update()
@@ -145,11 +154,13 @@ class Game:
         pygame.display.update()
 
     """ Fully restarts game with setting score and level to default values """
+
     def restart(self):
         self.__init__()
         self.launch_game()
 
     """ Checks if rocket is out of the bounds or drowned, if it is, shows dead screen and opens menu """
+
     def game_over(self):
         if (self.rocket.position[0] - self.rocket.rect.width / 2) < 0 \
                 or (self.rocket.position[0] + self.rocket.rect.width / 2) > WIDTH \
@@ -162,11 +173,12 @@ class Game:
                 self.fps_clock.tick(GAME_FPS)
                 self.screen.blit(font.render("You lose", False, RED), (WIDTH / 2, HEIGHT / 2))
                 pygame.display.update()
-            self.restart_menu.show_menu_window()
-            self.restart()
             self.save_score()
+            self.record.show_menu_window()
+            self.restart()
 
     """ Checks if rocket is on the right position and have right angle with speed to confirm that rocket landed """
+
     def game_win(self):
         if (((self.rocket.rect[1] + self.rocket.rect.height) > (self.platform.rect[1] + self.platform.rect.height / 4))
             and (self.rocket.position[0] > self.platform.position[0]
@@ -187,12 +199,14 @@ class Game:
             self.save_score()
 
     """ Recreates game window with saving current level and score values """
+
     @init_window()
     def recreate_game_pole(self):
         self.level += 1
         self.score += self.level * self.rocket.fuel
 
     """ Saves score to score.txt file """
+
     def save_score(self):
         file = open('score.txt', 'w')
 

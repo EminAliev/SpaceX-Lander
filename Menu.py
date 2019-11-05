@@ -1,7 +1,9 @@
 import sys
 
 import pygame
-from Config import FONT, MENU_BACKGROUND_IMAGE, SCREEN_SIZE
+from Config import FONT, MENU_BACKGROUND_IMAGE, SCREEN_SIZE, BIG_FONT_SIZE
+
+""" Menu class """
 
 
 class Menu:
@@ -10,7 +12,9 @@ class Menu:
         self.screen = screen
         self.image = pygame.image.load(MENU_BACKGROUND_IMAGE)
         self.image = pygame.transform.scale(self.image, SCREEN_SIZE)
+        self.font_menu = pygame.font.Font(FONT, BIG_FONT_SIZE)
 
+    """ Draws items of the menu """
     def render(self, surface, font, num_item):
         for i in self.items:
             if num_item == i[5]:
@@ -18,9 +22,10 @@ class Menu:
             else:
                 surface.blit(font.render(i[2], 1, i[3]), (i[0], i[1]))
 
+    """ Shows menu and processes events with input devices """
     def show_menu_window(self):
         run = True
-        font_menu = pygame.font.Font(FONT, 50)
+
         pygame.key.set_repeat(0, 0)
         pygame.mouse.set_visible(True)
         item = 0
@@ -32,7 +37,7 @@ class Menu:
             for i in self.items:
                 if i[0] < mp[0] < i[0] + 155 and i[1] < mp[1] < i[1] + 50:
                     item = i[5]
-            self.render(self.screen, font_menu, item)
+            self.render(self.screen, self.font_menu, item)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
@@ -51,5 +56,4 @@ class Menu:
                     elif item == 1:
                         sys.exit()
 
-            # self.screen.blit(0, 0)
             pygame.display.flip()
