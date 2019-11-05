@@ -37,11 +37,11 @@ HAPPY_ELON = "images/happyElonMusk.png"
 """ sizes """
 ROCKET_LAUNCHER_SIZE = (HEIGHT / 32 * 3, HEIGHT / 4)
 PLATFORM_SIZE = (HEIGHT / 12 / 3 * 11, HEIGHT / 12)
-ELON_HEIGHT = int(HEIGHT)
+ELON_HEIGHT = int(HEIGHT / 4)
 ELON_SIZE = (int(ELON_HEIGHT * 1.5), ELON_HEIGHT)  # GOD
 
 """ rocket configuration """
-ANGLE = 1  # Step of rocket rotating
+ANGLE = 0.5  # Step of rocket rotating
 SPEED = HEIGHT / 50000  # Rocket's booster speed
 GRAVITY_VECTOR = (0, SPEED / 2)  # Strength of gravity
 FONT = "fonts/spaceranger.ttf"
