@@ -1,6 +1,6 @@
 import pygame
 
-from Config import BLUE, WHITE
+from Config import BLUE, FONT_SIZE
 
 
 class Interface:
@@ -9,8 +9,8 @@ class Interface:
         self.screen = screen
 
     def render(self, param, x, y, text):
-        text_font = pygame.font.Font(None, 30)
-        text_image = text_font.render(text + str(param), True, WHITE)
+        text_font = pygame.font.Font(None, FONT_SIZE)
+        text_image = text_font.render(text + str(param), True, BLUE)
 
         self.screen.blit(text_image, (x, y))
 

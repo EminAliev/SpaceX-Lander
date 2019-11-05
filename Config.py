@@ -2,8 +2,8 @@
 WINDOW_TITLE = "SpaceX Lander"
 GAME_FPS = 60
 
-FULLSCREEN = False
-WIDTH, HEIGHT = 1280, 720  # set your screen size even if fullscreen
+FULLSCREEN = True
+WIDTH, HEIGHT = 1920, 1080  # set your screen size even if fullscreen
 SCREEN_SIZE = (WIDTH, HEIGHT)
 
 """ colors """
@@ -27,18 +27,23 @@ GRAY = (167, 169, 172)
 
 """ images """
 MENU_BACKGROUND_IMAGE = "images/menu_background.jpg"
-ROCKET_LAUNCHER_IMAGE = "images/launch-vehicle.png"
+ROCKET_LAUNCHER_IMAGE = "images/launch-vehicle-2.png"
+ROCKET_LAUNCHER_GAS_IMAGE = "images/launch-vehicle-gas-1.png"
 PLATFORM_IMAGE = "images/platform.png"  # 550x150 / 11x3
 
-BACKGROUND_IMAGE_LEVEL_1 = "images/Ocean-View-sm.jpg"
+BACKGROUND = ["images/background-1.jpg", "images/background-2.jpg", "images/background-3.jpg",
+              "images/background-4.jpg"]
+BACKGROUND_IMAGE_LEVEL_1 = "images/background-2.jpg"
 SAD_ELON = "images/sadElonMusk.png"
 HAPPY_ELON = "images/happyElonMusk.png"
 
 """ sizes """
-ROCKET_LAUNCHER_SIZE = (HEIGHT / 32 * 3, HEIGHT / 4)
+ROCKET_LAUNCHER_SIZE = (int(HEIGHT / 32 * 3), int(HEIGHT / 4))
+ROCKET_LAUNCHER_GAS_SIZE = (int(HEIGHT / 32 * 3), int(HEIGHT / 4.7))
 PLATFORM_SIZE = (HEIGHT / 12 / 3 * 11, HEIGHT / 12)
 ELON_HEIGHT = int(HEIGHT / 4)
 ELON_SIZE = (int(ELON_HEIGHT * 1.5), ELON_HEIGHT)  # GOD
+FONT_SIZE = int(HEIGHT / 24)
 
 """ rocket configuration """
 ANGLE = 0.5  # Step of rocket rotating
